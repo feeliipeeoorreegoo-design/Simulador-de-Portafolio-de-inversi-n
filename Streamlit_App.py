@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 # -----------------------------
 # CONFIGURACIÓN INICIAL
 # -----------------------------
-st.set_page_config(page_title="Simulador de Portafolio", layout="wide")
+st.set_page_config(page_title="Simulador de Portafolio de Inversiones", layout="wide")
 
 st.title("📈 Simulador Interactivo de Portafolio")
 
@@ -34,16 +34,16 @@ if "portfolio" not in st.session_state:
 # Comisiones por acción
 
 COMISIONES = {
-    "AAPL": 0.002,
-    "TSLA": 0.0015,
-    "MSFT": 0.002,
-    "AMZN": 0.002,
-    "GOOGL": 0.0012,
-    "JPM": 0.0018,
-    "JNJ": 0.0016,
-    "V": 0.0015,
-    "PG": 0.0021,
-    "DIS": 0.0010
+    "AAPL": 0.002, # Apple
+    "TSLA": 0.0015, # Tesla
+    "MSFT": 0.002, # Microsoft
+    "AMZN": 0.002, # Amazon
+    "GOOGL": 0.0012, # Google
+    "JPM": 0.0018, # JP Morgan Chase & Co.
+    "JNJ": 0.0016, #Johnson & Johnson
+    "VISA": 0.0015, #Visa INC
+    "PG": 0.0021, # Procter & Gramble
+    "DIS": 0.0010 # The Walt Disney Company
 }
 
 # -----------------------------
@@ -51,7 +51,7 @@ COMISIONES = {
 # -----------------------------
 
 if st.session_state.portfolio["cash"] == 0:
-    capital = st.number_input("💰 Capital inicial", min_value=0, value=100000000)
+    capital = st.number_input("💰 Capital inicial", min_value=0, value=1000000000)
     if st.button("Iniciar simulación"):
         st.session_state.portfolio["cash"] = capital
         st.session_state.portfolio["history"].append(capital)
