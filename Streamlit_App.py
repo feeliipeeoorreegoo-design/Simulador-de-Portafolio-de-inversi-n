@@ -162,7 +162,7 @@ with col2:
 # GRÁFICO EN TIEMPO REAL
 # -----------------------------
 
-st.subheader("📉 Evolución del Portafolio")
+st.subheader(" Evolución del Portafolio")
 
 if len(portfolio["history"]) > 1:
     fig, ax = plt.subplots()
