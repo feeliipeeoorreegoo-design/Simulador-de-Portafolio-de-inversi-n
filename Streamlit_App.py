@@ -115,8 +115,18 @@ def sell(asset, amount):
 
 
 def total_value():
-    return portfolio["cash"] + sum(portfolio["positions"].values())
 
+    total = portfolio["cash"]
+
+    for asset, acciones in portfolio["positions"].items():
+        try:
+            data = yf.download(asset, period="1d", progress=False)
+            precio_actual = data["Close"].iloc[-1]
+            total += acciones * precio_actual
+        except:
+            pass
+
+    return total
 
 def update_history():
     value = total_value()
