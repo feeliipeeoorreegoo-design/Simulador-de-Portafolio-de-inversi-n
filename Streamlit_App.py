@@ -67,7 +67,7 @@ portfolio = st.session_state.portfolio
 
 def buy(asset, amount, fecha):
     
-    acciones = amount / precio
+    Acciones = amount / precio
     
     if amount > portfolio["cash"]:
         st.warning("No hay suficiente capital")
@@ -88,7 +88,7 @@ def buy(asset, amount, fecha):
     
     portfolio["cash"] -= (amount + commission)
     
-    portfolio["positions"][asset] = portfolio["positions"].get(asset, 0) + amount
+    portfolio["positions"][asset] = portfolio["positions"].get(asset, 0) + Acciones
     
     st.success(f"Compraste {amount:,.0f} en {asset} | Comisión: {commission:,.0f}")
 
@@ -168,7 +168,7 @@ with col2:
     st.write("📦 Posiciones:")
     if portfolio["positions"]:
         df_positions = pd.DataFrame.from_dict(
-            portfolio["positions"], orient="index", columns=["Valor"]
+            portfolio["positions"], orient="index", columns=["Acciones"]
         )
         st.dataframe(df_positions)
     else:
