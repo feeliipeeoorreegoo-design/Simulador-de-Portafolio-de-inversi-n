@@ -148,7 +148,7 @@ with col1:
     amount_buy = st.number_input("Monto a invertir", min_value=0, key="buy_amount")
     
     if st.button("Comprar"):
-        buy(asset_buy, amount_buy)
+        buy(asset_buy, amount_buy, fecha_operacion)
         update_history()
         st.rerun()
 
