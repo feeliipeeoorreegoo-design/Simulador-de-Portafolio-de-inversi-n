@@ -96,7 +96,7 @@ def sell(asset, amount):
     if data.empty:
         st.warning("No se pudo obtener datos para vender, operación cancelada")
         return
-    precio=float(data[" Close "].values.flatten()[0])
+    precio = float(data["Close"].values.flatten()[0])
     valor_venta= amount * precio
                 
     rendimiento = np.random.uniform(-0.05, 0.05)
