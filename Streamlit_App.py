@@ -80,13 +80,12 @@ def buy(asset, amount, fecha):
     data = yf.download(asset, start=fecha, end=fecha_fin, progress=False)
 
     if data.empty:
-        st.warning("No hay datos para esa fecha")
+        st.warning("No hay datos para esa fecha (puede ser fin de semana)")
         return
 
     precio = data["Close"].iloc[0]
 
-    rate = COMISIONES.get(asset, 0.002)
-    commission = amount * rate
+    acciones = amount / precio
     
     portfolio["cash"] -= (amount + commission)
     
