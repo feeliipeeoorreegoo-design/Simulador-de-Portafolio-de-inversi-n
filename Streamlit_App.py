@@ -74,7 +74,7 @@ def buy(asset, amount, fecha):
         return
     
     
-    fecha_fin = fecha + timedelta(days=1)
+    fecha_fin = fecha + timedelta(days=2)
     data = yf.download(asset, start=fecha, end=fecha_fin, progress=False)
 
     if data.empty:
