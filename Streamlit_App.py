@@ -36,16 +36,16 @@ if "portfolio" not in st.session_state:
 # Comisiones por acción
 
 COMISIONES = {
-    "APPLE": 0.002, # Apple
-    "TESLA": 0.0015, # Tesla
-    "MICROSOFT": 0.002, # Microsoft
-    "AMAZON": 0.002, # Amazon
-    "GOOGLE": 0.0012, # Google
-    "JPMORGAN": 0.0018, # JP Morgan Chase & Co.
-    "JOHNSON_AND_JOHNSON": 0.0016, #Johnson & Johnson
-    "VISA": 0.0015, #Visa INC
-    "PROCTER_AND_GAMBLE": 0.0021, # Procter & Gramble
-    "DISNEY": 0.0010 # The Walt Disney Company
+    "AAPL": 0.002, # Apple
+    "TSLA": 0.0015, # Tesla
+    "MSFT": 0.002, # Microsoft
+    "AMZN": 0.002, # Amazon
+    "GOOGL": 0.0012, # Google
+    "JPM": 0.0018, # JP Morgan Chase & Co.
+    "JNJ": 0.0016, #Johnson & Johnson
+    "V": 0.0015, #Visa INC
+    "PG": 0.0021, # Procter & Gramble
+    "DIS": 0.0010 # The Walt Disney Company
 }
 
 # -----------------------------
@@ -68,12 +68,11 @@ portfolio = st.session_state.portfolio
 def buy(asset, amount, fecha):
     rate = COMISIONES.get(asset, 0.002)
     commission = amount * rate
-    portfolio["cash"] -= (amount + commission)
-    Acciones = amount / precio
     
     if amount > portfolio["cash"]:
         st.warning("No hay suficiente capital")
         return
+    
     
     fecha_fin = fecha + timedelta(days=1)
     data = yf.download(asset, start=fecha, end=fecha_fin, progress=False)
@@ -88,7 +87,7 @@ def buy(asset, amount, fecha):
     
     portfolio["cash"] -= (amount + commission)
     
-    portfolio["positions"][asset] = portfolio["positions"].get(asset, 0) + Acciones
+    portfolio["positions"][asset] = portfolio["positions"].get(asset, 0) + acciones
     
     st.success(f"Compraste {amount:,.0f} en {asset} | Comisión: {commission:,.0f}")
 
@@ -121,7 +120,7 @@ def total_value():
     for asset, acciones in portfolio["positions"].items():
         try:
             data = yf.download(asset, period="1d", progress=False)
-            precio_actual = data["Close"].iloc[-1]
+            precio_actual = float(data["Close"].iloc[-1])
             total += acciones * precio_actual
         except:
             pass
