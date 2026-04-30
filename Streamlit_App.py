@@ -96,9 +96,16 @@ def sell(asset, amount):
     if data.empty:
         st.warning("No se pudo obtener datos para vender, operación cancelada")
         return
+<<<<<<< HEAD
     precio = float(data["Close"].values.flatten()[0])
     valor_venta= amount * precio
                 
+=======
+    
+    precio = float(data["Close"].values.flatten()[0])
+    valor_venta = amount * precio
+
+>>>>>>> 6d97d0d (Conversion de acciones a capital)
     rendimiento = np.random.uniform(-0.05, 0.05)
     valor_venta = amount * (1 + rendimiento)
     
