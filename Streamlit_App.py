@@ -81,7 +81,7 @@ def buy(asset, amount, fecha):
         st.warning("No hay datos exactos, usando precio más reciente")
         data = yf.download(asset, period="1d", progress=False)
 
-    precio = float(data["Close"].dropna().values[-1])
+    precio = float(data["Close"].values.flatten()[0])
     acciones = amount / precio
     
     portfolio["cash"] -= (amount + commission)
