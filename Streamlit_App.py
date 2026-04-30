@@ -12,6 +12,8 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import yfinance as yf
+from datetime import timedelta
 
 # -----------------------------
 # CONFIGURACIÓN INICIAL
@@ -34,16 +36,16 @@ if "portfolio" not in st.session_state:
 # Comisiones por acción
 
 COMISIONES = {
-    "AAPL": 0.002, # Apple
-    "TSLA": 0.0015, # Tesla
-    "MSFT": 0.002, # Microsoft
-    "AMZN": 0.002, # Amazon
-    "GOOGL": 0.0012, # Google
-    "JPM": 0.0018, # JP Morgan Chase & Co.
-    "JNJ": 0.0016, #Johnson & Johnson
+    "APPLE": 0.002, # Apple
+    "TESLA": 0.0015, # Tesla
+    "MICROSOFT": 0.002, # Microsoft
+    "AMAZON": 0.002, # Amazon
+    "GOOGLE": 0.0012, # Google
+    "JPMORGAN": 0.0018, # JP Morgan Chase & Co.
+    "JOHNSON_AND_JOHNSON": 0.0016, #Johnson & Johnson
     "VISA": 0.0015, #Visa INC
-    "PG": 0.0021, # Procter & Gramble
-    "DIS": 0.0010 # The Walt Disney Company
+    "PROCTER_AND_GAMBLE": 0.0021, # Procter & Gramble
+    "DISNEY": 0.0010 # The Walt Disney Company
 }
 
 # -----------------------------
@@ -63,11 +65,24 @@ portfolio = st.session_state.portfolio
 # FUNCIONES FINANCIERAS
 # -----------------------------
 
-def buy(asset, amount):
+def buy(asset, amount, fecha):
+    
+    acciones = amount / precio
+    
     if amount > portfolio["cash"]:
         st.warning("No hay suficiente capital")
         return
     
+    fecha_fin = fecha + timedelta(days=1)
+
+    data = yf.download(asset, start=fecha, end=fecha_fin, progress=False)
+
+    if data.empty:
+        st.warning("No hay datos para esa fecha")
+        return
+
+    precio = data["Close"].iloc[0]
+
     rate = COMISIONES.get(asset, 0.002)
     commission = amount * rate
     
@@ -113,6 +128,7 @@ def update_history():
 # -----------------------------
 
 st.subheader("🧾 Operaciones")
+fecha_operacion = st.date_input("📅 Selecciona la fecha de la operación")
 
 col1, col2 = st.columns(2)
 
