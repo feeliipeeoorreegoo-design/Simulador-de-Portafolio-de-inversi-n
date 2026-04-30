@@ -79,7 +79,7 @@ def buy(asset, amount, fecha):
 
     if data.empty:
         st.warning("No hay datos exactos, usando precio más reciente")
-        data = yf.download(asset, period="5d", progress=False)
+        data = yf.download(asset, period="1d", progress=False)
 
     precio = float(data["Close"].dropna().values[-1])
     acciones = amount / precio
