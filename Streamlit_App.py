@@ -66,7 +66,7 @@ portfolio = st.session_state.portfolio
 # -----------------------------
 
 def buy(asset, amount, fecha):
-
+    rate = COMISIONES.get(asset, 0.002)
     commission = amount * rate
     portfolio["cash"] -= (amount + commission)
     Acciones = amount / precio
