@@ -91,10 +91,16 @@ def buy(asset, amount, fecha):
 
 
 def sell(asset, amount):
-    if asset not in portfolio["positions"] or portfolio["positions"][asset] < amount:
-        st.warning("No tienes suficiente posición")
+    data = yf.download(asset, period="1d", progress=False)
+
+    if data.empty:
+        st.warning("No se pudo obtener datos para vender, operación cancelada")
         return
     
+    precio = float(data["Close"].values.flatten()[0])
+    valor_venta = amount * precio
+
+
     rendimiento = np.random.uniform(-0.05, 0.05)
     valor_venta = amount * (1 + rendimiento)
     
