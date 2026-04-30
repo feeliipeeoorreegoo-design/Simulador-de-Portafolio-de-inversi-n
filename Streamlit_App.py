@@ -68,10 +68,13 @@ portfolio = st.session_state.portfolio
 def buy(asset, amount, fecha):
     rate = COMISIONES.get(asset, 0.002)
     commission = amount * rate
-   if (amount+comission) > portfolio["cash"]:
-       st.warning("No hay suficiente capital (incluyendo comisiones)")
-       return
-
+    portfolio["cash"] -= (amount + commission)
+    Acciones = amount / precio
+    
+    if amount > portfolio["cash"]:
+        st.warning("No hay suficiente capital")
+        return
+    
     fecha_fin = fecha + timedelta(days=1)
     data = yf.download(asset, start=fecha, end=fecha_fin, progress=False)
 
@@ -80,11 +83,13 @@ def buy(asset, amount, fecha):
         return
 
     precio = data["Close"].iloc[0]
-    acciones_compradas= amount / precio 
 
+    acciones = amount / precio
+    
     portfolio["cash"] -= (amount + commission)
+    
     portfolio["positions"][asset] = portfolio["positions"].get(asset, 0) + Acciones
-
+    
     st.success(f"Compraste {amount:,.0f} en {asset} | Comisión: {commission:,.0f}")
 
 
